@@ -1,11 +1,61 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "../components/PostCard.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const posts = (await getCollection("posts")).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const title = "100xNotes";
+const description = "A Dev's Notes";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout title={title} description={description}>
+	<section class="intro">
+		<h1>{title}</h1>
+		<p class="subtitle">{description}</p>
+		<blockquote class="tagline">
+			Notes and reflections from my journey through the 100xDevs cohort.
+		</blockquote>
+	</section>
+
+	<section class="posts">
+		{posts.map((post) => <PostCard post={post} />)}
+	</section>
+</BaseLayout>
+
+<style>
+	.intro {
+		margin-bottom: var(--spacing-xl);
+		text-align: center;
+		border-bottom: 1px solid var(--color-border);
+		padding-bottom: var(--spacing-lg);
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 700;
+		margin-bottom: 0.5rem;
+		color: var(--color-text);
+	}
+
+	.subtitle {
+		font-size: 1.25rem;
+		color: var(--color-text-muted);
+		font-family: var(--font-serif);
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.tagline {
+		font-size: 1.125rem;
+		font-style: italic;
+		color: var(--color-text);
+		max-width: 600px;
+		margin: 0 auto;
+		font-family: var(--font-serif);
+	}
+	.red-x {
+		color: var(--color-red-x);
+	}
+</style>

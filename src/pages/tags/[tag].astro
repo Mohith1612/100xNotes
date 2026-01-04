@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection("posts");
+    const uniqueTags = [...new Set(allPosts.flatMap((post) => post.data.tags))];
+
+    return uniqueTags.map((tag) => {
+        const filteredPosts = allPosts.filter((post) =>
+            post.data.tags.includes(tag),
+        );
+        return {
+            params: { tag },
+            props: { posts: filteredPosts },
+        };
+    });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+
+const sortedPosts = posts.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout
+    title={`Posts tagged #${tag}`}
+    description={`All posts tagged with #${tag}`}
+>
+    <header class="tag-header">
+        <h1>#{tag}</h1>
+        <p>{posts.length} {posts.length === 1 ? "post" : "posts"}</p>
+    </header>
+
+    <section class="posts">
+        {sortedPosts.map((post) => <PostCard post={post} />)}
+    </section>
+</BaseLayout>
+
+<style>
+    .tag-header {
+        margin-bottom: var(--spacing-xl);
+        text-align: center;
+    }
+
+    h1 {
+        font-size: 2rem;
+        color: var(--color-primary);
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        color: var(--color-text-muted);
+    }
+</style>
