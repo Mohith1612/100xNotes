@@ -1,46 +1,52 @@
-# Astro Starter Kit: Basics
+# 100xNotes
 
-```sh
-bun create astro@latest -- --template basics
+A public engineering notebook documenting my learnings during the **100xDevs cohort** by Harkirat Singh.
+
+This site is a writing-first static blog built with **Astro**, designed to be minimal, clean, and durable. It serves as a personal knowledge base for backend systems, system design, and web development fundamentals.
+
+## Tech Stack
+
+- **Framework**: [Astro 5](https://astro.build)
+- **Styling**: Plain CSS (No Tailwind, No Frameworks)
+- **Deployment**: Cloudflare Pages / Static
+
+## Features
+
+- **Minimal Design**: No distractions.
+- **Dark/Light Mode**: Respects system preference.
+- **Tag System**: Dynamic tagging and filtering.
+- **Performance**: Zero-JS core (JS used only for theme toggle).
+
+## Project Structure
+
+```bash
+src/
+├── components/   # UI: Header, Footer, PostCard, ThemeToggle
+├── content/      # Markdown/MDX posts
+├── layouts/      # BaseLayout, PostLayout
+├── pages/        # Astro Routes (index, posts/[slug], tags/[tag])
+└── styles/       # CSS tokens, base reset, prose styles
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Running Locally
 
-## 🚀 Project Structure
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-Inside of your Astro project, you'll see the following folders and files:
+2. **Start Dev Server**:
+   ```bash
+   npm run dev
+   ```
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+3. **Build for Production**:
+   ```bash
+   npm run build
+   ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Design Philosophy
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- **No Animations**: Prioritize speed and calmness.
+- **No Marketing**: This is an engineering notebook, not a portfolio.
+- **Mental Models**: Diagrams and text over flashy interactions.
