@@ -1,0 +1,46 @@
+:root {
+  /* Colors - Light Mode */
+  --color-bg: #FDFBF7;
+  /* Soft paper-like */
+  --color-text: #2D2D2D;
+  /* Charcoal */
+  --color-text-muted: #666666;
+  --color-border: #E5E5E5;
+  --color-primary: #2B6CB0;
+  /* Calm Blue */
+  --color-code-bg: #F5F5F5;
+
+  /* Colors - Dark Mode */
+  --color-bg-dark: #121212;
+  /* Near black */
+  --color-text-dark: #E0E0E0;
+  /* Soft off-white */
+  --color-text-muted-dark: #A0A0A0;
+  --color-border-dark: #333333;
+  --color-primary-dark: #63B3ED;
+  /* Soft Blue */
+  --color-code-bg-dark: #1E1E1E;
+  --color-red-x: #D2042D;
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 4rem;
+
+  --max-width: 760px;
+}
+
+[data-theme="dark"] {
+  --color-bg: var(--color-bg-dark);
+  --color-text: var(--color-text-dark);
+  --color-text-muted: var(--color-text-muted-dark);
+  --color-border: var(--color-border-dark);
+  --color-primary: var(--color-primary-dark);
+  --color-code-bg: var(--color-code-bg-dark);
+  --color-red-x-dark: var(--color-red-x);
+}
