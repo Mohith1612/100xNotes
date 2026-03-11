@@ -1,0 +1,135 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { slugifySeries } from "../lib/series";
+
+interface Props {
+    post: CollectionEntry<"posts">;
+    seriesPosts: CollectionEntry<"posts">[];
+    variant: "banner" | "nav";
+}
+
+const { post, seriesPosts, variant } = Astro.props;
+const { series } = post.data;
+
+if (!series) return;
+
+const seriesSlug = slugifySeries(series.name);
+const total = seriesPosts.length;
+const currentOrder = series.order;
+const prevPost = seriesPosts.find((p) => p.data.series!.order === currentOrder - 1);
+const nextPost = seriesPosts.find((p) => p.data.series!.order === currentOrder + 1);
+---
+
+{
+    variant === "banner" && (
+        <div class="series-banner">
+            <a href={`/series/${seriesSlug}`} class="series-link">
+                Part {currentOrder} of {total} — {series.name}
+            </a>
+        </div>
+    )
+}
+
+{
+    variant === "nav" && (
+        <nav class="series-nav" aria-label="Series navigation">
+            <div class="series-nav-header">
+                <a href={`/series/${seriesSlug}`}>{series.name}</a>
+            </div>
+            <div class="series-nav-links">
+                {prevPost && (
+                    <a href={`/posts/${prevPost.id}`} class="series-nav-link series-nav-link--prev">
+                        <span class="direction">← Previous</span>
+                        <span class="post-title">{prevPost.data.title}</span>
+                    </a>
+                )}
+                {nextPost && (
+                    <a href={`/posts/${nextPost.id}`} class="series-nav-link series-nav-link--next">
+                        <span class="direction">Next →</span>
+                        <span class="post-title">{nextPost.data.title}</span>
+                    </a>
+                )}
+            </div>
+        </nav>
+    )
+}
+
+<style>
+    .series-banner {
+        margin-bottom: var(--spacing-md);
+    }
+
+    .series-banner .series-link {
+        font-size: 0.875rem;
+        font-family: var(--font-sans);
+        color: var(--color-primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .series-banner .series-link:hover {
+        text-decoration: underline;
+    }
+
+    .series-nav {
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: var(--spacing-md);
+        margin-top: var(--spacing-xl);
+    }
+
+    .series-nav-header {
+        font-size: 0.75rem;
+        font-family: var(--font-sans);
+        color: var(--color-text-muted);
+        margin-bottom: var(--spacing-md);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .series-nav-header a {
+        color: var(--color-primary);
+        text-decoration: none;
+    }
+
+    .series-nav-header a:hover {
+        text-decoration: underline;
+    }
+
+    .series-nav-links {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--spacing-md);
+    }
+
+    .series-nav-link {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        text-decoration: none;
+        max-width: 45%;
+    }
+
+    .series-nav-link--next {
+        margin-left: auto;
+        text-align: right;
+    }
+
+    .direction {
+        font-size: 0.75rem;
+        font-family: var(--font-sans);
+        color: var(--color-text-muted);
+    }
+
+    .post-title {
+        font-size: 0.9375rem;
+        font-family: var(--font-sans);
+        color: var(--color-primary);
+        font-weight: 500;
+        line-height: 1.3;
+    }
+
+    .series-nav-link:hover .post-title {
+        text-decoration: underline;
+    }
+</style>
