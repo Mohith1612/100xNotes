@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getSeriesGroups } from "../../lib/series";
+
+export async function getStaticPaths() {
+    const allPosts = await getCollection("posts");
+    const seriesGroups = getSeriesGroups(allPosts);
+
+    return [...seriesGroups.entries()].map(([slug, { name, posts }]) => ({
+        params: { slug },
+        props: { name, posts },
+    }));
+}
+
+const { name, posts } = Astro.props;
+---
+
+<BaseLayout title={`${name} — Dev Notes`} description={`All posts in the series: ${name}`}>
+    <section class="series-detail">
+        <header class="page-header">
+            <a href="/series" class="back-link">← All Series</a>
+            <h1>{name}</h1>
+            <p>{posts.length} {posts.length === 1 ? "post" : "posts"}</p>
+        </header>
+
+        <ol class="posts-list">
+            {
+                posts.map((post, i) => (
+                    <li>
+                        <span class="order-label">Part {i + 1}</span>
+                        <PostCard post={post} />
+                    </li>
+                ))
+            }
+        </ol>
+    </section>
+</BaseLayout>
+
+<style>
+    .series-detail {
+        padding-top: var(--spacing-lg);
+    }
+
+    .page-header {
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .back-link {
+        font-size: 0.875rem;
+        color: var(--color-text-muted);
+        text-decoration: none;
+        display: inline-block;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .back-link:hover {
+        color: var(--color-primary);
+    }
+
+    .page-header h1 {
+        font-size: 2rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .page-header p {
+        color: var(--color-text-muted);
+        font-size: 0.875rem;
+    }
+
+    .posts-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .posts-list li {
+        position: relative;
+    }
+
+    .order-label {
+        font-size: 0.75rem;
+        font-family: var(--font-sans);
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+</style>
