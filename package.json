@@ -1,5 +1,5 @@
 {
-  "name": "100xnotes",
+  "name": "dev-notes",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -9,6 +9,6 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.6"
+    "astro": "^6.1.10"
   }
 }
